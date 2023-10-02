@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useReducer } from 'react';
+import { UserContext, UserProps } from './context/context';
+import { initialState, reducer } from './reducer/reducer';
 
-function App() {
+interface AppProps { }
+
+const App: React.FC<AppProps> = () => {
+  const user = useContext<UserProps | any>(UserContext)
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <h1>Hello {`${user.name}`}</h1>
+      <h1>Hello {`${user.email}`}</h1>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: "increment" })}>Increment</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>Increment</button>
+    </>
+  )
 }
 
 export default App;
